@@ -1,1 +1,2 @@
-
+python_libnmap==0.7.0
+pandas==0.24.2

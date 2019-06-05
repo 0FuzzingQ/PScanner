@@ -4,6 +4,7 @@ import time
 import subprocess
 import threading
 from libnmap.parser import NmapParser
+import pandas as pd
 
 def get_port(target):
     
@@ -74,9 +75,21 @@ def scan_service(data,id):
         info("[!]服务扫描线程开启 线程号: %s 任务名 : %s" %(str(id),cmd))
         subprocess.check_call(cmd,shell=True)
         info("[*]服务扫描线程完成 线程号: %s 任务名 : %s" %(str(id),cmd))
-        nmap_report = NmapParser.parse_fromfile("./nmap/" + i[-1] + ".xml")
-        res = [ [a.address,  b.port,b.service,b.banner,(b.service + b.tunnel).replace('sl','') + '://' + a.address + ':' + str(b.port) + '/' if b.service.startswith('http') and 'http-proxy' not in b.service else '' ,b.protocol] for a in nmap_report.hosts for b in a.services  ]
+        nmap_report = NmapParser.parse_fromfile("./output/services/" + i[-1] + ".xml")
+        res = [ [a.address,b.port,b.service,b.banner] for a in nmap_report.hosts for b in a.services  ]
         #print(res)
+
+        pd.DataFrame(res,columns=['ip','port','server','banner'])
+
+        res.to_csv("./output/results.csv",header=False,mode="a")
+
+        
+
+
+
+        
+
+
 
 
 
