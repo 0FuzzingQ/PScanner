@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # -*- coding: utf-8 -*-
 from lib.logging import info
 import time
@@ -82,9 +81,3 @@ def scan_service(data,id):
 
 
 
-=======
-
-
-def get_port():
-    pass
->>>>>>> 17d4fb4b69e75c9e75e43ab67f80c2694431dea6
