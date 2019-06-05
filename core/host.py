@@ -1,18 +1,27 @@
 # -*- coding: utf-8 -*-
 import threading
+<<<<<<< HEAD
 import subprocess
 from lib.logging import info
 from core.port import get_port
 
+=======
+>>>>>>> 17d4fb4b69e75c9e75e43ab67f80c2694431dea6
 def get_host(target_list):
     
     host_scan_thread = []
 
     if len(target_list) < 4:
 
+<<<<<<< HEAD
         for i in range(0,len(target_list)):
 
             t = threading.Thread(target = scan_host, args =(target_list[i],i+1,))
+=======
+        for target in target_list:
+
+            t = Thread(target = scan_host, args =(target,))
+>>>>>>> 17d4fb4b69e75c9e75e43ab67f80c2694431dea6
             host_scan_thread.append(t)
             t.start()
     
@@ -20,10 +29,17 @@ def get_host(target_list):
 
         infest = int(len(target_list)/4)
 
+<<<<<<< HEAD
         t1 = threading.Thread(target = scan_host, args =(target_list[:infest],1,))
         t2 = threading.Thread(target = scan_host, args =(target_list[infest:infest*2],2,))
         t3 = threading.Thread(target = scan_host, args =(target_list[infest*2:infest*3],3,))
         t4 = threading.Thread(target = scan_host, args =(target_list[infest*3:],4,))
+=======
+        t1 = Thread(target = scan_host, args =(target_list[:infest],))
+        t2 = Thread(target = scan_host, args =(target_list[infest:infest*2],))
+        t3 = Thread(target = scan_host, args =(target_list[infest*2:infest*3],))
+        t4 = Thread(target = scan_host, args =(target_list[infest*3:],))
+>>>>>>> 17d4fb4b69e75c9e75e43ab67f80c2694431dea6
 
         host_scan_thread.append(t1)
         host_scan_thread.append(t2)
@@ -48,6 +64,7 @@ def get_host(target_list):
 
 
 
+<<<<<<< HEAD
 def scan_host(targets,id):
 
     #print("[!]线程开启 线程号 :%s " % str(id))
@@ -80,3 +97,6 @@ def scan_host(targets,id):
 
 
 
+=======
+            
+>>>>>>> 17d4fb4b69e75c9e75e43ab67f80c2694431dea6
