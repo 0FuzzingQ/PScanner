@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 import threading
+import subprocess
+from lib.logging import info
+from core.port import get_port
+
 def get_host(target_list):
     
     host_scan_thread = []
 
     if len(target_list) < 4:
 
-        for target in target_list:
+        for i in range(0,len(target_list)):
 
-            t = Thread(target = scan_host, args =(target,))
+            t = threading.Thread(target = scan_host, args =(target_list[i],i+1,))
             host_scan_thread.append(t)
             t.start()
     
@@ -16,10 +20,10 @@ def get_host(target_list):
 
         infest = int(len(target_list)/4)
 
-        t1 = Thread(target = scan_host, args =(target_list[:infest],))
-        t2 = Thread(target = scan_host, args =(target_list[infest:infest*2],))
-        t3 = Thread(target = scan_host, args =(target_list[infest*2:infest*3],))
-        t4 = Thread(target = scan_host, args =(target_list[infest*3:],))
+        t1 = threading.Thread(target = scan_host, args =(target_list[:infest],1,))
+        t2 = threading.Thread(target = scan_host, args =(target_list[infest:infest*2],2,))
+        t3 = threading.Thread(target = scan_host, args =(target_list[infest*2:infest*3],3,))
+        t4 = threading.Thread(target = scan_host, args =(target_list[infest*3:],4,))
 
         host_scan_thread.append(t1)
         host_scan_thread.append(t2)
@@ -44,4 +48,35 @@ def get_host(target_list):
 
 
 
-            
+def scan_host(targets,id):
+
+    #print("[!]线程开启 线程号 :%s " % str(id))
+    info("[!]主机扫描线程开启 线程号 :%s " % str(id))
+
+    if len(targets) == 1:
+        try:
+            cmd = "fping -g %s -a > %s.txt" %(targets,"./output/hosts/" + targets.split("/")[0])
+            info("[!]主机扫描线程开启 线程号 :%s 任务名 :%s " % (str(id),cmd))
+            subprocess.check_call(cmd,shell=True)
+            info("[!]主机扫描线程报错 线程号 :%s 任务名 :%s " % (str(id),cmd))
+            get_port(targets)
+
+        except:
+            #print("[!]线程报错 线程号 :%s 任务名 :%s " % (str(id),cmd))
+            info("[!]主机扫描线程报错 线程号 :%s 任务名 :%s " % (str(id),cmd))
+    else:
+        for t in targets:
+            try:
+                cmd = "fping -g %s -a > %s.txt" %(t,"./output/hosts/" + t.split("/")[0])
+                info("[!]主机扫描线程开启 线程号 :%s 任务名 :%s " % (str(id),cmd))
+                subprocess.check_call(cmd,shell=True)
+                info("[!]主机扫描线程报错 线程号 :%s 任务名 :%s " % (str(id),cmd))
+                get_port(targets)
+            except:
+                #print("[!]线程报错 线程号 :%s 任务名 :%s " % (str(id),cmd))
+                info("[!]主机扫描线程报错 线程号 :%s 任务名 :%s " % (str(id),cmd))
+
+
+
+
+

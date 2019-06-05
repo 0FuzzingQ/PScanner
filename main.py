@@ -7,12 +7,16 @@ import sys
 import datetime
 from lib.param import get_param,analyse_param
 from core.host import get_host
+from lib.logging import info,test
 #from core import port
 
 
 
 
 def run():
+
+    test()
+    exit()
 
     target,speed,output = get_param()
     analyse_param(target,speed,output)
