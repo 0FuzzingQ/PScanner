@@ -5,6 +5,7 @@ import subprocess
 import threading
 from libnmap.parser import NmapParser
 import pandas as pd
+import os
 
 def get_port(target):
     
@@ -12,10 +13,10 @@ def get_port(target):
     output_path = "./output/ports/" + target.split("/")[0]
 
     try:
-        cmd = "sudo masscan -iL %s.txt  -oL %s --rate=10000" % (host_path,output_path)
+        cmd = "sudo masscan -iL %s.txt -p1-65535 -oL %s --rate=10000" % (host_path,output_path)
         info("[!]端口扫描线程开启  任务名 : %s" % cmd)
-        subprocess.check_call(cmd)
-        info("[!]端口扫描线程开启  任务名 : %s" % cmd)
+        os.system(cmd)
+        info("[*]端口扫描线程完成  任务名 : %s" % cmd)
     except:
         #print("[!]文件打开扫描异常: %s " % host_path)
         info("[!]端口扫描异常: %s " % target)
@@ -73,7 +74,7 @@ def scan_service(data,id):
         ports = ','.join(x for x in i[:-1])
         cmd = "nmap -sV %s -p%s -oX %s.xml" %(i[-1],ports,"./output/services/" + i[-1])
         info("[!]服务扫描线程开启 线程号: %s 任务名 : %s" %(str(id),cmd))
-        subprocess.check_call(cmd,shell=True)
+        os.system(cmd)
         info("[*]服务扫描线程完成 线程号: %s 任务名 : %s" %(str(id),cmd))
         nmap_report = NmapParser.parse_fromfile("./output/services/" + i[-1] + ".xml")
         res = [ [a.address,b.port,b.service,b.banner] for a in nmap_report.hosts for b in a.services  ]

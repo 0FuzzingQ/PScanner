@@ -21,24 +21,24 @@ def get_param():
 def analyse_param(target,speed,output):
 
     try:
-        with open(target,"w") as target_f:
+        with open(target,"r") as target_f:
             target_f.close()
     except:
 
         print("[!]找不到目标文件")
 
-    try:
-        with open(output,"w") as output_f:
-            output_f.close()
+    #try:
+    #    with open(output,"w") as output_f:
+    #        output_f.close()
 
-    except:
+    #except:
 
-        print("[!]无法创建结果文件")
+    #    print("[!]无法创建结果文件")
 
-    if speed not in [1,2,3]:
+    #if speed not in [1,2,3]:
 
-        print("[!]-c参数不正确，可选项[1，2，3]")
-        exit()
+    #    print("[!]-c参数不正确，可选项[1，2，3]")
+    #    exit()
 
 
 def  analyse_target(target):
